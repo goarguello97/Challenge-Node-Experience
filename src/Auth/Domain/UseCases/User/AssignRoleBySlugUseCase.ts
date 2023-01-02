@@ -1,4 +1,4 @@
-import UserAssignRoleBySlugPayload from '../../Payloads/User/UserAssignRoleBySlugPayload';
+import UserAssignRoleBySlug from '../../Payloads/User/UserAssignRoleBySlug';
 import IUserDomain from '../../Entities/IUserDomain';
 import { REPOSITORIES } from '../../../../Config/Injects';
 import IUserRepository from '../../../Infrastructure/Repositories/IUserRepository';
@@ -17,7 +17,7 @@ class AssignRoleBySlugUseCase
         this.roleRepository = container.resolve<IRoleRepository>(REPOSITORIES.IRoleRepository);
     }
 
-    async handle(payload: UserAssignRoleBySlugPayload): Promise<IUserDomain>
+    async handle(payload: UserAssignRoleBySlug): Promise<IUserDomain>
     {
         const { email, slugRole } = payload;
 

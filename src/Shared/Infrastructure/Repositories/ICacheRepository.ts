@@ -1,6 +1,8 @@
+import { CacheConfig } from '../../../Config/MainConfig';
 
 export interface ICacheRepository
 {
+    createConnection(config: CacheConfig): unknown;
     set(key: string, value: string, expires?: number | null): Promise<void>;
     jset(key: string, value: any, expires?: number | null): Promise<unknown>;
     jget(key: string): Promise<any>

@@ -1,5 +1,5 @@
 import { Schema } from 'mongoose';
-import { uuid } from '@deepkit/type';
+import { v4 as uuidv4 } from 'uuid';
 import Notification from '../../Domain/Entities/Notification';
 import EmailNotification from '../../Domain/Entities/EmailNotification';
 import PushNotification from '../../Domain/Entities/PushNotification';
@@ -8,7 +8,7 @@ import StatusNotificationEnum from '../../Domain/Enum/StatusNotificationEnum';
 const options = { discriminatorKey: 'kind', timestamps: true };
 
 export const NotificationSchema: any = new Schema<Notification>({
-    _id: { type: String, default: uuid },
+    _id: { type: String, default: uuidv4 },
     name: { type:String, required: true }
 }, options).loadClass(Notification);
 

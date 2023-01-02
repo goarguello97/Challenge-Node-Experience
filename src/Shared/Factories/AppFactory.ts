@@ -1,13 +1,11 @@
 import IApp from '../Application/Http/IApp';
-import AppExpress from '../Application/Http/AppExpress';
 import AppKoa from '../Application/Http/AppKoa';
 
 class AppFactory
 {
-    static create(appName = 'AppExpress'): IApp
+    static create(appName = 'AppKoa'): IApp
     {
         const strategy: Record<string, any> = {
-            [AppExpress.name]: AppExpress,
             [AppKoa.name]: AppKoa
         };
 
@@ -16,3 +14,5 @@ class AppFactory
 }
 
 export default AppFactory;
+
+    

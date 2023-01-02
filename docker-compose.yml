@@ -2,7 +2,7 @@ version: '3.4'
 
 services:
   node:
-    container_name: experience_node_1
+    container_name: Challenge_node_1
     restart: always
     build:
       context: .
@@ -10,19 +10,12 @@ services:
       target: ${STAGE}
     ports:
       - "8089:8089"
-      - "9229:9229"
-    labels:
-      - traefik.http.routers.api.rule=Host(`api.domain.com`)
-      - traefik.http.routers.api.tls=true
-      - traefik.http.routers.api.tls.certresolver=lets-encrypt
-      - traefik.port=80
     volumes:
       - .:/usr/app:cached
     networks:
-     - experiencenet
-
+     - Challenge_net
   db:
-    container_name: experience_db_1
+    container_name: Challenge_db_1
     restart: always
     build:
       context: docker/mongo/
@@ -30,38 +23,33 @@ services:
     ports:
       - "27017:27017"
     networks:
-     - experiencenet
+     - Challenge_net
     environment:
       MONGODB_ROOT_PASSWORD: 123456
-      MONGODB_USERNAME: experience
-      MONGODB_PASSWORD: experience
-      MONGODB_DATABASE: experience
+      MONGODB_USERNAME: Challenge
+      MONGODB_PASSWORD: Challenge123
+      MONGODB_DATABASE: db_Challenge
     volumes:
-      - data:/bitnami/mongodb
+      - data:/bitnami/mongodb   
 
   mail:
-    container_name: experience_mail_1
+    container_name: Challenge_mail_1
     restart: always
     image: mailhog/mailhog:latest
     ports:
       - "8025:8025"
     networks:
-     - experiencenet
+     - Challenge_net
 
   minio:
-    container_name: experience_minio_1
+    container_name: Challenge_minio_1
     restart: always
     image: minio/minio
     ports:
       - "9000:9000"
       - "9001:9001"
-    labels:
-      - traefik.http.routers.api.rule=Host(`minio.domain.com`)
-      - traefik.http.routers.api.tls=true
-      - traefik.http.routers.api.tls.certresolver=lets-encrypt
-      - traefik.port=80
     networks:
-     - experiencenet
+     - Challenge_net
     environment:
       MINIO_ROOT_USER: minio
       MINIO_ROOT_PASSWORD: 12345678
@@ -73,19 +61,19 @@ services:
   redis:
     image: bitnami/redis:latest
     restart: always
-    container_name: experience_redis_1
+    container_name: Challenge_redis_1
     environment:
       - REDIS_PASSWORD=ewsua132435 # Security reasons
       - DISABLE_COMMANDS=FLUSHDB,FLUSHALL,CONFIG # Security reasons
     ports:
       - "6379:6379"
     networks:
-     - experiencenet
+     - Challenge_net
     volumes:
       - redis:/bitnami/redis/data
 
 networks:
-  experiencenet:
+  Challenge_net:
     driver: "bridge"
 
 volumes:

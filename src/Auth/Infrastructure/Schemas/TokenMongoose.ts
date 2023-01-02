@@ -1,9 +1,9 @@
 import { Schema } from 'mongoose';
-import { uuid } from '@deepkit/type';
+import { v4 as uuidv4 } from 'uuid';
 import Token from '../../Domain/Entities/Token';
 
 const TokenSchema: any = new Schema({
-    _id: { type: Schema.Types.String, default: uuid },
+    _id: { type: Schema.Types.String, default: uuidv4 },
     hash: { type:Schema.Types.String, required: true },
     expires: { type:Schema.Types.Number, required: true },
     payload: { type:Schema.Types.Mixed, required: true },

@@ -24,7 +24,7 @@ import MainConfig from '../../../Config/MainConfig';
 import LoggerKoaMiddleware from '../../Presentation/Middlewares/LoggerKoaMiddleware';
 import { getRequestContext } from '../../Presentation/Shared/RequestContext';
 import Logger from '../Logger/Logger';
-import ContextMikroORMKoaMiddleware from '../../Presentation/Middlewares/ContextMikroORMKoaMiddleware';
+
 import ContainerKoaMiddleware from '../../Presentation/Middlewares/ContainerKoaMiddleware';
 
 class AppKoa implements IApp
@@ -53,11 +53,6 @@ class AppKoa implements IApp
 
         // Generic error handling middleware.
         this.app.use(ErrorKoaHandler.handle);
-
-        if (MainConfig.getInstance().getConfig().dbConfig.default === 'MikroORM')
-        {
-            this.app.use(ContextMikroORMKoaMiddleware);
-        }
 
         this.app.use(ContainerKoaMiddleware);
         this.app.use(LoggerKoaMiddleware);
@@ -104,7 +99,7 @@ class AppKoa implements IApp
         this.app.use(RedirectRouteNotFoundKoaMiddleware);
     }
 
-    public listen(): Server
+    public listen(): any
     {
         this.server = this.app.listen(this.port, () =>
         {

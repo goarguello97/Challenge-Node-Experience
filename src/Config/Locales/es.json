@@ -4,7 +4,7 @@
 		"domain": {
 			"exceptions": {
 				"invalidPassword": "Contraseña invalida",
-				"uniqueAttribute": "La propiedad {{name}} ya se encuentra en uso"
+				"uniqueAttribute": "La propiedad  ya se encuentra en uso"
 			}
 		},
 		"presentation": {

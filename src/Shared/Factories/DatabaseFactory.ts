@@ -1,29 +1,30 @@
 import MainConfig from '../../Config/MainConfig';
-import CreateTypeORMConnection from '../Infrastructure/Database/CreateTypeORMConnection';
-import CreateMongooseConnection from '../Infrastructure/Database/CreateMongooseConnection';
-import CreateMikroORMConnection from '../Infrastructure/Database/CreateMikroORMConnection';
+import MongooseCreateConnection from '../Infrastructure/Database/CreateMongooseConnection';
 import ICreateConnection from '../Infrastructure/Database/ICreateConnection';
 
 class DatabaseFactory
 {
-    private readonly dbDefault: string;
+    private dbDefault: string;
 
     constructor(dbDefault?: string)
     {
-        const mainConfig = MainConfig.getInstance();
-        this.dbDefault = dbDefault ?? mainConfig.getConfig().dbConfig.default;
+        this.dbDefault = dbDefault;
     }
 
     create(): ICreateConnection
     {
         const mainConfig = MainConfig.getInstance();
+
+        if (!this.dbDefault)
+        {
+            this.dbDefault = mainConfig.getConfig().dbConfig.default;
+        }
+
         const dbConfig: any = mainConfig.getConfig().dbConfig;
         const config = dbConfig[this.dbDefault];
 
         const createConnections: Record<string, any> = {
-            TypeORM: CreateTypeORMConnection,
-            Mongoose: CreateMongooseConnection,
-            MikroORM: CreateMikroORMConnection
+            Mongoose: MongooseCreateConnection
         };
 
         return new createConnections[this.dbDefault](config);
@@ -31,3 +32,5 @@ class DatabaseFactory
 }
 
 export default DatabaseFactory;
+
+    

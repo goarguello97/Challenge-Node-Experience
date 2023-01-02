@@ -1,18 +1,16 @@
-import { UUID, uuid } from '@deepkit/type';
+import { v4 as uuidV4 } from 'uuid';
 import IBaseDomain from './IBaseDomain';
 
 abstract class Base implements IBaseDomain
 {
-    _id: UUID;
+    _id: string;
 
-    createdAt: Date;
-    updatedAt: Date;
+    createdAt: Date | undefined;
+    updatedAt: Date | undefined;
 
     constructor()
     {
-        this._id = uuid();
-        this.createdAt = new Date();
-        this.updatedAt = new Date();
+        this._id = uuidV4();
     }
 
     getId(): string
@@ -20,9 +18,14 @@ abstract class Base implements IBaseDomain
         return this._id;
     }
 
-    setId(id: UUID)
+    setId(id: string)
     {
         this._id = id;
+    }
+
+    clone(): void
+    {
+        this._id = uuidV4();
     }
 }
 

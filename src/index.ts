@@ -22,7 +22,7 @@ void (async() =>
 
     const databaseFactory = new DatabaseFactory();
     const createConnection: ICreateConnection = databaseFactory.create();
-    const cache: ICacheRepository = CacheFactory.createRedisCache(config.cache.redis);
+    const cache: ICacheRepository = CacheFactory.createRedisCache();
     const eventHandler = EventHandler.getInstance();
 
     try
@@ -30,6 +30,7 @@ void (async() =>
         await createConnection.initConfig();
         await createConnection.create();
 
+        await cache.createConnection(config.cache.redis);
         await cache.cleanAll();
 
         await eventHandler.setListeners();
@@ -49,7 +50,7 @@ void (async() =>
         throw error;
     }
 
-    async function closeGracefully(signal: NodeJS.Signals)
+    async function closeGracefully(signal: any)
     {
         app.close();
         await createConnection.close(true);
